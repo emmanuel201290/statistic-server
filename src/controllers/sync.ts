@@ -8,6 +8,14 @@ export const create = async (req: Request, res: Response) => {
     if (data === undefined) return;
     let value: Object = data.response;
 
+    const statisticBD = await Statistic.find();
+
+    if(statisticBD){
+    statisticBD.forEach(async(data)=>{
+    await Statistic.findByIdAndDelete(data._id);
+    })
+  }
+
     Object.values(value).forEach((element) => {
       let statistic = new Statistic({
         continent: element.continent,
